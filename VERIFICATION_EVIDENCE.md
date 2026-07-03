@@ -1,12 +1,16 @@
 # Radian Key - Verification Evidence
 
-**Date**: 2026-07-03T14:50:33Z
+**Date**: 2026-07-03T15:03:03Z
 **Status**: ✅ VERIFIED
 
 ## Menu Separation Update
 
 - `CustomerPage` navigation hidden based on route (`/customer`).
 - Admin/Kasir views no longer show `Customer` route link.
+
+## Mobile Layout Update
+
+- Changed `#root` CSS constraint in `index.css` to `max-width: 600px; width: 100%; border-inline: none;` to enforce a phone-friendly single-column layout on all devices.
 
 ## Concrete Test Evidence
 
