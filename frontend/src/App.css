@@ -1,14 +1,22 @@
 :root {
-  --primary: #2563eb;
-  --primary-dark: #1e40af;
-  --success: #10b981;
-  --danger: #ef4444;
-  --warning: #f59e0b;
-  --dark: #1f2937;
-  --gray: #6b7280;
-  --light: #f3f4f6;
+  /* Tailwind-like colors */
+  --primary: #4f46e5;      /* indigo-600 */
+  --primary-dark: #4338ca; /* indigo-700 */
+  --success: #10b981;      /* emerald-500 */
+  --danger: #ef4444;       /* red-500 */
+  --warning: #f59e0b;      /* amber-500 */
+  --dark: #111827;         /* gray-900 */
+  --gray: #6b7280;         /* gray-500 */
+  --light: #f3f4f6;        /* gray-100 */
   --white: #ffffff;
-  --border: #e5e7eb;
+  --border: #e5e7eb;       /* gray-200 */
+  
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  
+  --radius: 0.75rem;
 }
 
 * {
@@ -18,163 +26,148 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: var(--light);
   color: var(--dark);
+  line-height: 1.5;
 }
 
 .app {
   max-width: 600px;
   margin: 0 auto;
   min-height: 100vh;
-  background: white;
-  box-shadow: 0 0 30px rgba(0,0,0,0.1);
+  background: var(--light);
 }
 
 .app-header {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  background: var(--primary);
   color: white;
-  padding: 2rem 1rem;
+  padding: 1.5rem 1rem;
   text-align: center;
+  border-bottom-left-radius: 1.5rem;
+  border-bottom-right-radius: 1.5rem;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 1rem;
 }
 
 .app-header h1 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.025em;
 }
 
 .app-header p {
   opacity: 0.9;
-  font-size: 0.95rem;
-}
-
-.app-nav {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
-  border-bottom: 2px solid var(--border);
-}
-
-.nav-btn {
-  padding: 1rem;
-  background: white;
-  border: none;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-  text-decoration: none;
-  color: var(--dark);
-  text-align: center;
-  border-bottom: 3px solid transparent;
-}
-
-.nav-btn:hover {
-  background: var(--light);
-}
-
-.nav-btn.kasir {
-  border-right: 1px solid var(--border);
-}
-
-.nav-btn:active {
-  transform: scale(0.98);
-}
-
-/* Pages */
-.kasir-page,
-.customer-page,
-.home {
-  padding: 1.5rem;
-}
-
-.home {
-  text-align: center;
-  padding-top: 3rem;
-}
-
-.home h2 {
-  color: var(--primary);
-  margin-bottom: 1rem;
-}
-
-/* Mode Toggle */
-.mode-toggle {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.mode-toggle button {
-  padding: 0.75rem;
-  border: 2px solid var(--border);
-  background: white;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.mode-toggle button.active {
-  background: var(--primary);
-  color: white;
-  border-color: var(--primary);
-}
-
-/* Alerts */
-.alert {
-  padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
 }
 
-.alert.error {
-  background: #fee;
-  color: var(--danger);
-  border: 1px solid var(--danger);
+/* Modern App Navigation */
+.app-nav {
+  display: flex;
+  overflow-x: auto;
+  background: white;
+  margin: 0 1rem 1.5rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  scrollbar-width: none; /* Firefox */
+}
+.app-nav::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
 
-.alert.success {
-  background: #efe;
-  color: var(--success);
-  border: 1px solid var(--success);
+.nav-btn {
+  flex: 1;
+  min-width: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 0.5rem;
+  background: transparent;
+  border: none;
+  text-decoration: none;
+  color: var(--gray);
+  transition: all 0.2s;
+  gap: 0.25rem;
 }
 
-.alert.info {
-  background: #eef;
+.nav-btn .icon {
+  font-size: 1.25rem;
+}
+
+.nav-btn .label {
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.nav-btn:hover {
   color: var(--primary);
-  border: 1px solid var(--primary);
+  background: #f8fafc;
 }
 
-/* Forms */
+.nav-btn:active {
+  transform: scale(0.95);
+}
+
+/* Cards & Pages */
+.kasir-page,
+.customer-page,
+.admin-page,
+.print-qr-page,
+.reports-page,
+.settings-page,
+.home {
+  padding: 0 1rem 2rem;
+}
+
+.home {
+  text-align: center;
+  padding-top: 2rem;
+  background: white;
+  margin: 1rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 3rem 1rem;
+}
+
+.home h2 {
+  color: var(--dark);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+/* Forms & Inputs */
 .form-group {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
+  margin-bottom: 0.375rem;
+  font-weight: 500;
+  font-size: 0.875rem;
   color: var(--dark);
 }
 
 .form-group input {
   width: 100%;
-  padding: 0.75rem;
-  border: 2px solid var(--border);
-  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
   font-size: 1rem;
+  background: white;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .form-group input:focus {
   outline: none;
   border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
 /* Buttons */
@@ -182,15 +175,21 @@ body {
 .btn-secondary,
 .btn-voucher,
 .btn-add-stamp,
-.btn-reset {
+.btn-reset,
+.btn-search,
+.btn-load {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
   width: 100%;
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-primary {
@@ -203,20 +202,25 @@ body {
 }
 
 .btn-secondary {
-  background: var(--gray);
-  color: white;
+  background: white;
+  color: var(--dark);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  background: var(--light);
 }
 
 .btn-voucher {
   background: var(--success);
   color: white;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .btn-add-stamp {
   background: var(--primary);
   color: white;
-  font-size: 1.1rem;
+  font-size: 1rem;
   margin-top: 1rem;
 }
 
@@ -225,35 +229,59 @@ body {
   color: var(--dark);
   width: auto;
   padding: 0.5rem 1rem;
-  font-size: 0.9rem;
 }
 
 button:disabled {
-  opacity: 0.5;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 
-/* QR Scanner */
-.qr-scanner {
-  margin: 1rem 0;
-  border-radius: 12px;
-  overflow: hidden;
+/* Modern Segemented Control (Mode Toggle) */
+.mode-toggle,
+.scan-mode-toggle {
+  display: flex;
+  background: #e2e8f0;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
 }
 
-#qr-reader {
-  border: none !important;
+.mode-toggle button,
+.scan-mode-toggle button {
+  flex: 1;
+  padding: 0.5rem;
+  background: transparent;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--gray);
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-#qr-reader__dashboard_section_swaplink {
-  display: none !important;
-}
-
-/* Customer Display */
-.customer-display {
+.mode-toggle button.active,
+.scan-mode-toggle button.active {
   background: white;
-  border-radius: 12px;
+  color: var(--dark);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Customer Display Cards */
+.customer-display,
+.customer-card,
+.stat-card,
+.summary-card,
+.settings-section,
+.manual-qr-form,
+.register-section,
+.qr-display,
+.customer-search-section {
+  background: white;
+  border-radius: var(--radius);
   padding: 1.5rem;
-  border: 2px solid var(--border);
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
 }
 
 .customer-header {
@@ -262,1071 +290,270 @@ button:disabled {
   align-items: center;
   margin-bottom: 1.5rem;
 }
+.customer-header h3 { font-size: 1.125rem; }
 
 .customer-info {
   background: var(--light);
   padding: 1rem;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   margin-bottom: 1.5rem;
 }
 
 .info-row {
   display: flex;
   justify-content: space-between;
-  padding: 0.5rem 0;
+  padding: 0.375rem 0;
+  font-size: 0.875rem;
 }
 
-.info-row .label {
-  font-weight: 600;
-  color: var(--gray);
-}
+.info-row .label { color: var(--gray); }
+.info-row .value { font-weight: 600; color: var(--dark); }
 
-.info-row .value {
-  font-weight: 600;
-  color: var(--dark);
-}
-
-/* Stamp Section */
-.stamp-section {
+/* Beautiful Stamps */
+.stamp-section,
+.stamp-display {
   margin: 1.5rem 0;
-  padding: 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  border-radius: var(--radius);
   color: white;
-}
-
-.stamp-counter {
+  box-shadow: var(--shadow-md);
   text-align: center;
-  margin: 1rem 0;
 }
 
-.stamp-number {
-  font-size: 3rem;
-  font-weight: 700;
-}
+.stamp-counter .stamp-number { font-size: 3.5rem; font-weight: 800; line-height: 1; }
+.stamp-counter .stamp-total { font-size: 1.5rem; opacity: 0.8; font-weight: 600; }
+.stamp-counter-big .count { font-size: 4rem; font-weight: 800; line-height: 1; }
+.stamp-counter-big .total { font-size: 2rem; opacity: 0.8; font-weight: 600; }
 
-.stamp-total {
-  font-size: 2rem;
-  opacity: 0.7;
-}
-
-.stamp-grid {
+.stamp-grid, .stamp-grid-big {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 0.75rem;
-  margin-top: 1rem;
-}
-
-.stamp {
-  aspect-ratio: 1;
-  border-radius: 50%;
-  border: 3px solid rgba(255,255,255,0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  font-weight: 700;
-  background: rgba(255,255,255,0.1);
-}
-
-.stamp.filled {
-  background: white;
-  color: #667eea;
-  border-color: white;
-}
-
-/* Voucher Active */
-.voucher-active {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: white;
-  padding: 1.5rem;
-  border-radius: 12px;
-  text-align: center;
-  margin: 1.5rem 0;
-}
-
-.voucher-amount {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin: 1rem 0;
-}
-
-.voucher-active button {
-  margin-top: 1rem;
-}
-
-/* QR Display */
-.qr-display {
-  text-align: center;
-  padding: 1rem;
-  background: var(--light);
-  border-radius: 8px;
   margin-top: 1.5rem;
 }
 
-.qr-display img {
-  max-width: 200px;
-  border-radius: 8px;
-  margin: 1rem 0;
-}
-
-.qr-code-text {
-  font-size: 0.85rem;
-  color: var(--gray);
-  font-family: monospace;
-}
-
-/* Customer Page Specific */
-.customer-page .subtitle {
-  text-align: center;
-  color: var(--gray);
-  margin-bottom: 1.5rem;
-}
-
-.customer-card {
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.card-header {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-  color: white;
-  padding: 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.card-header h3 {
-  font-size: 1.5rem;
-}
-
-.stamp-display {
-  padding: 2rem 1.5rem;
-  text-align: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-}
-
-.stamp-counter-big {
-  margin: 1rem 0;
-}
-
-.stamp-counter-big .count {
-  font-size: 4rem;
-  font-weight: 700;
-}
-
-.stamp-counter-big .total {
-  font-size: 2.5rem;
-  opacity: 0.7;
-}
-
-.stamp-label {
-  font-size: 1.1rem;
-  opacity: 0.9;
-  margin-bottom: 1.5rem;
-}
-
-.stamp-grid-big {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-  margin: 1.5rem 0;
-}
-
-.stamp-item {
+.stamp, .stamp-item {
   aspect-ratio: 1;
-}
-
-.stamp-circle {
-  width: 100%;
-  height: 100%;
   border-radius: 50%;
-  border: 3px solid rgba(255,255,255,0.3);
+  border: 2px dashed rgba(255,255,255,0.4);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
-  background: rgba(255,255,255,0.1);
-  transition: all 0.3s;
+  background: rgba(255,255,255,0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.stamp-item.filled .stamp-circle {
+.stamp.filled, .stamp-item.filled {
   background: white;
-  color: #667eea;
-  border-color: white;
-  transform: scale(1.1);
+  color: #4f46e5;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transform: scale(1.05);
 }
 
-.remaining {
-  margin-top: 1rem;
-  font-size: 1rem;
+.stamp-item .stamp-circle {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
 }
 
-.remaining strong {
-  font-size: 1.3rem;
-}
-
-/* Voucher Card */
-.voucher-card {
-  padding: 2rem;
+/* Vouchers */
+.voucher-active, .voucher-card {
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: white;
-  text-align: center;
-  border-bottom: 1px solid var(--border);
-}
-
-.voucher-icon {
-  font-size: 3rem;
-  margin-bottom: 0.5rem;
-}
-
-.voucher-card h4 {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.voucher-value {
-  font-size: 3rem;
-  font-weight: 700;
-  margin: 1rem 0;
-}
-
-.voucher-note {
-  opacity: 0.9;
-  font-size: 0.95rem;
-}
-
-/* QR Card */
-.qr-card {
   padding: 2rem 1.5rem;
+  border-radius: var(--radius);
   text-align: center;
-  background: var(--light);
-  border-bottom: 1px solid var(--border);
+  margin: 1.5rem 0;
+  box-shadow: var(--shadow-md);
 }
 
-.qr-card h4 {
-  margin-bottom: 1rem;
-  color: var(--dark);
+.voucher-amount, .voucher-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0.5rem 0 1rem;
+  letter-spacing: -0.025em;
 }
 
-.qr-image img {
-  max-width: 250px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.qr-instruction {
-  margin-top: 1rem;
-  color: var(--gray);
-  font-size: 0.95rem;
-}
-
-/* Info Card */
-.info-card {
-  padding: 1.5rem;
-}
-
-.info-item {
+/* Alerts */
+.alert {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 0.75rem;
-  background: var(--light);
-  border-radius: 8px;
-  margin-bottom: 0.75rem;
 }
 
-.info-item .icon {
-  font-size: 1.5rem;
+.alert.error {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #f87171;
 }
 
-.info-item .text {
-  color: var(--dark);
-  font-weight: 500;
+.alert.success {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #34d399;
 }
 
-/* Responsive */
-@media (max-width: 480px) {
-  .app-header h1 {
-    font-size: 1.5rem;
-  }
-  
-  .stamp-counter .stamp-number {
-    font-size: 2.5rem;
-  }
-  
-  .stamp-counter-big .count {
-    font-size: 3rem;
-  }
-  
-  .voucher-amount,
-  .voucher-value {
-    font-size: 2rem;
-  }
+.alert.info {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #60a5fa;
 }
 
-/* Scan Mode Toggle */
-.scan-mode-toggle {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
-  margin: 1rem 0;
-}
-
-.scan-mode-toggle button {
-  padding: 0.75rem;
-  border: 2px solid var(--border);
-  background: white;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.scan-mode-toggle button.active {
-  background: var(--primary);
-  color: white;
-  border-color: var(--primary);
-}
-
-/* Manual QR Form */
-.manual-qr-form {
-  margin-top: 1rem;
-  padding: 1.5rem;
-  background: var(--light);
-  border-radius: 8px;
-}
-
-.scan-hint {
-  text-align: center;
-  color: var(--warning);
-  font-size: 0.9rem;
-  margin-top: 1rem;
-  padding: 0.75rem;
-  background: #fff9e6;
-  border-radius: 6px;
-  border: 1px solid var(--warning);
-}
-
-/* QR Upload Component */
-.qr-upload {
-  margin-top: 1rem;
-}
-
+/* Upload Area */
 .upload-area {
   text-align: center;
-  padding: 2rem;
-  background: var(--light);
-  border: 2px dashed var(--border);
-  border-radius: 12px;
-  transition: all 0.3s;
+  padding: 2.5rem 1.5rem;
+  background: #f8fafc;
+  border: 2px dashed #cbd5e1;
+  border-radius: var(--radius);
+  transition: all 0.2s;
 }
-
 .upload-area:hover {
   border-color: var(--primary);
-  background: #f0f7ff;
+  background: #eff6ff;
 }
-
 .upload-button {
-  display: inline-block;
-  padding: 1rem 2rem;
-  background: var(--primary);
-  color: white;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-  margin-bottom: 0.5rem;
-}
-
-.upload-button:hover {
-  background: var(--primary-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
-.upload-hint {
-  margin-top: 0.75rem;
-  color: var(--gray);
-  font-size: 0.9rem;
-}
-
-.upload-error {
-  margin-top: 1rem;
-  padding: 0.75rem;
-  background: #fee;
-  color: var(--danger);
-  border-radius: 6px;
-  border: 1px solid var(--danger);
-}
-
-.camera-warning {
-  background: #fff3cd;
-  border-color: #ffcc00;
-  color: #856404;
-}
-
-/* 3-button toggle grid */
-.scan-mode-toggle {
-  grid-template-columns: 1fr 1fr 1fr;
-}
-
-/* ===================================
-   ADMIN PAGE
-   =================================== */
-.admin-page {
-  padding: 1.5rem;
-}
-
-.admin-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.admin-header h2 {
-  margin: 0;
-}
-
-.export-buttons {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.btn-export {
-  padding: 0.5rem 1rem;
-  background: var(--success);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-export:hover {
-  background: #059669;
-  transform: translateY(-2px);
-}
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.stat-card {
   background: white;
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  padding: 1.5rem;
-  text-align: center;
-  transition: all 0.2s;
-}
-
-.stat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.stat-card.highlight {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-  color: white;
-  border: none;
-}
-
-.stat-icon {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.stat-value {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 0.25rem;
-}
-
-.stat-label {
-  font-size: 0.85rem;
-  opacity: 0.8;
-}
-
-.search-section {
-  margin-bottom: 2rem;
-}
-
-.search-form {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.search-input {
-  flex: 1;
-  padding: 0.75rem 1rem;
-  border: 2px solid var(--border);
-  border-radius: 8px;
-  font-size: 1rem;
-}
-
-.btn-search {
+  color: var(--dark);
+  border: 1px solid var(--border);
   padding: 0.75rem 1.5rem;
-  background: var(--primary);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-search:hover {
-  background: var(--primary-dark);
-}
-
-.btn-clear {
-  padding: 0.75rem 1rem;
-  background: var(--gray);
-  color: white;
-  border: none;
-  border-radius: 8px;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
   cursor: pointer;
 }
 
-.customers-section h3 {
-  margin-bottom: 1rem;
-}
-
-.customers-table {
-  overflow-x: auto;
-  border: 2px solid var(--border);
-  border-radius: 8px;
-}
-
-.customers-table table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.customers-table th,
-.customers-table td {
-  padding: 0.75rem;
-  text-align: left;
-  border-bottom: 1px solid var(--border);
-}
-
-.customers-table th {
-  background: var(--light);
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.customers-table tr:last-child td {
-  border-bottom: none;
-}
-
-.stamp-badge {
-  padding: 0.25rem 0.5rem;
-  background: var(--success);
-  color: white;
-  border-radius: 4px;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.voucher-badge {
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.voucher-badge.active {
-  background: var(--success);
-  color: white;
-}
-
-.voucher-badge.inactive {
-  background: var(--light);
-  color: var(--gray);
-}
-
-.btn-view {
-  padding: 0.5rem 1rem;
-  background: var(--primary);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.85rem;
-}
-
-.btn-view:hover {
-  background: var(--primary-dark);
-}
-
+/* Modals */
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(0,0,0,0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+  backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 50;
+  padding: 1rem;
 }
-
 .modal-content {
   background: white;
-  border-radius: 12px;
-  padding: 2rem;
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  width: 100%;
   max-width: 500px;
-  width: 90%;
-  max-height: 80vh;
+  max-height: 90vh;
   overflow-y: auto;
+  box-shadow: var(--shadow-lg);
 }
 
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-
-.modal-header h3 {
-  margin: 0;
-}
-
-.btn-close {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: var(--gray);
-}
-
-.btn-close:hover {
-  color: var(--dark);
-}
-
-.customer-detail .detail-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.customer-detail .detail-row:last-child {
-  border-bottom: none;
-}
-
-.customer-detail .label {
-  font-weight: 600;
-  color: var(--gray);
-}
-
-.customer-detail .value {
-  color: var(--dark);
-}
-
-.customer-detail .value.code {
-  font-family: monospace;
-  font-size: 0.85rem;
-}
-
-/* ===================================
-   PRINT QR PAGE
-   =================================== */
-.print-qr-page {
-  padding: 1.5rem;
-}
-
-.print-area {
-  margin-top: 2rem;
-}
-
-.action-buttons {
-  display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.btn-print {
-  padding: 0.75rem 1.5rem;
-  background: var(--success);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-print:hover {
-  background: #059669;
-  transform: translateY(-2px);
-}
-
-.btn-reset {
-  padding: 0.75rem 1.5rem;
-  background: var(--gray);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.btn-reset:hover {
-  background: #4b5563;
-}
-
-/* ===================================
-   REPORTS PAGE
-   =================================== */
-.reports-page {
-  padding: 1.5rem;
-}
-
-.date-selector {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  padding: 1rem;
-  background: var(--light);
-  border-radius: 8px;
-  flex-wrap: wrap;
-}
-
-.date-selector label {
-  font-weight: 600;
-}
-
-.date-input {
-  padding: 0.5rem;
-  border: 2px solid var(--border);
-  border-radius: 6px;
-  font-size: 1rem;
-}
-
-.btn-load {
-  padding: 0.5rem 1rem;
-  background: var(--primary);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.btn-load:hover {
-  background: var(--primary-dark);
-}
-
-.report-content h3 {
-  margin-bottom: 1.5rem;
-  color: var(--primary);
-}
-
-.report-summary {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.summary-card {
-  background: white;
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  padding: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.summary-card.highlight {
-  background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
-  color: white;
-  border: none;
-}
-
-.summary-icon {
-  font-size: 2rem;
-}
-
-.summary-data {
-  flex: 1;
-}
-
-.summary-value {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 0.25rem;
-}
-
-.summary-label {
-  font-size: 0.85rem;
-  opacity: 0.8;
-}
-
-.transactions-detail h4 {
-  margin-bottom: 1rem;
-}
-
-.transactions-table {
+/* Tables (Mobile responsive via horizontal scroll) */
+.table-responsive, .customers-table, .transactions-table {
+  width: 100%;
   overflow-x: auto;
-  border: 2px solid var(--border);
-  border-radius: 8px;
+  -webkit-overflow-scrolling: touch;
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
 }
-
-.transactions-table table {
+table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
+  white-space: nowrap;
 }
-
-.transactions-table th,
-.transactions-table td {
-  padding: 0.75rem;
+th {
+  background: #f8fafc;
+  font-weight: 600;
+  color: var(--gray);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  padding: 1rem;
   text-align: left;
   border-bottom: 1px solid var(--border);
 }
-
-.transactions-table th {
-  background: var(--light);
-  font-weight: 600;
-}
-
-.transactions-table tr:last-child td {
-  border-bottom: none;
-}
-
-.type-badge {
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  display: inline-block;
-}
-
-.type-badge.add_stamp {
-  background: var(--success);
-  color: white;
-}
-
-.type-badge.use_voucher {
-  background: var(--warning);
-  color: white;
-}
-
-.type-badge.register {
-  background: var(--primary);
-  color: white;
-}
-
-.transactions-table .notes {
-  font-size: 0.85rem;
-  color: var(--gray);
-}
-
-.report-actions {
-  margin-top: 2rem;
-  text-align: center;
-}
-
-/* ===================================
-   SETTINGS PAGE
-   =================================== */
-.settings-page {
-  padding: 1.5rem;
-}
-
-.settings-content {
-  max-width: 800px;
-}
-
-.settings-section {
-  background: white;
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.settings-section h3 {
-  margin-bottom: 1.5rem;
-  color: var(--primary);
-  font-size: 1.25rem;
-}
-
-.setting-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 0;
+td {
+  padding: 1rem;
   border-bottom: 1px solid var(--border);
-}
-
-.setting-item:last-child {
-  border-bottom: none;
-}
-
-.setting-label {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.setting-label .icon {
-  font-size: 1.5rem;
-}
-
-.setting-label .label {
-  font-weight: 600;
   color: var(--dark);
 }
 
-.setting-value {
+/* Badges */
+.stamp-badge, .voucher-badge, .type-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.stamp-badge { background: #dbeafe; color: #1d4ed8; }
+.voucher-badge.active { background: #d1fae5; color: #047857; }
+.voucher-badge.inactive { background: #f3f4f6; color: #6b7280; }
+.type-badge.add_stamp { background: #d1fae5; color: #047857; }
+.type-badge.use_voucher { background: #fef3c7; color: #b45309; }
+.type-badge.register { background: #e0e7ff; color: #4338ca; }
+
+/* Stats Grid */
+.stats-grid, .report-summary {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.stat-card, .summary-card {
+  padding: 1rem;
+  margin-bottom: 0;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 0.5rem;
 }
+.stat-icon, .summary-icon { font-size: 1.5rem; }
+.stat-value, .summary-value { font-size: 1.5rem; font-weight: 700; line-height: 1; }
+.stat-label, .summary-label { font-size: 0.75rem; color: var(--gray); font-weight: 500; }
 
-.value-display {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--primary);
+.stat-card.highlight, .summary-card.highlight {
+  background: var(--primary);
+  color: white;
 }
+.stat-card.highlight .stat-label, .summary-card.highlight .summary-label { color: rgba(255,255,255,0.8); }
 
-.unit {
-  font-size: 0.9rem;
-  color: var(--gray);
+/* Helpers */
+h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; }
+h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; }
+.subtitle { color: var(--gray); font-size: 0.875rem; margin-top: -1rem; margin-bottom: 1.5rem; }
+
+/* QR Reader fixes */
+#qr-reader { border: none !important; border-radius: var(--radius); overflow: hidden; }
+#qr-reader__dashboard_section_swaplink { display: none !important; }
+
+/* Settings items */
+.setting-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1rem 0; border-bottom: 1px solid var(--border);
 }
+.setting-item:last-child { border-bottom: none; }
+.setting-label { display: flex; align-items: center; gap: 0.75rem; font-weight: 500; }
+.value-display { font-weight: 700; color: var(--primary); }
 
 .info-box {
-  background: var(--light);
-  padding: 1rem;
-  border-radius: 8px;
-  border-left: 4px solid var(--primary);
+  background: #f8fafc; padding: 1rem; border-radius: 0.5rem; font-size: 0.875rem;
 }
+.info-box ul { margin-left: 1.5rem; margin-top: 0.5rem; }
 
-.info-box p {
-  margin-bottom: 0.5rem;
-}
+/* Utility */
+.qr-display img { max-width: 200px; border-radius: 0.5rem; margin: 1rem auto; display: block; }
+.qr-code-text { font-family: monospace; font-size: 0.75rem; color: var(--gray); text-align: center; }
 
-.info-box ul {
-  margin-left: 1.5rem;
-  margin-top: 0.5rem;
-}
-
-.info-box li {
-  margin-bottom: 0.5rem;
-  line-height: 1.5;
-}
-
-/* ===================================
-   NAVIGATION UPDATES (6 buttons)
-   =================================== */
-.app-nav {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0;
-  border-bottom: 2px solid var(--border);
-}
-
-.nav-btn {
-  padding: 0.75rem 0.5rem;
-  font-size: 0.9rem;
-  border-right: 1px solid var(--border);
-  border-bottom: 3px solid transparent;
-}
-
-.nav-btn:nth-child(3n) {
-  border-right: none;
-}
-
-/* ===================================
-   RESPONSIVE
-   =================================== */
-@media (max-width: 768px) {
-  .app {
-    max-width: 100%;
-  }
-
-  .stats-grid,
-  .report-summary {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .customers-table,
-  .transactions-table {
-    font-size: 0.85rem;
-  }
-
-  .customers-table th,
-  .customers-table td,
-  .transactions-table th,
-  .transactions-table td {
-    padding: 0.5rem;
-  }
-
-  .admin-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .export-buttons {
-    width: 100%;
-  }
-
-  .btn-export {
-    flex: 1;
-  }
-
-  .search-form {
-    flex-direction: column;
-  }
-
-  .search-input,
-  .btn-search,
-  .btn-clear {
-    width: 100%;
-  }
-
-  .date-selector {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .date-input,
-  .btn-load {
-    width: 100%;
-  }
-
-  .app-nav {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
+/* Print Area */
 @media print {
-  .no-print {
-    display: none !important;
-  }
+  .no-print { display: none !important; }
 }
 
-/* ===================================
-   QR SCANNER CUSTOM (jsQR)
-   =================================== */
+/* QR SCANNER CUSTOM (jsQR) */
 .qr-scanner-custom {
   width: 100%;
   max-width: 500px;

@@ -17,20 +17,25 @@ function Navigation() {
 
   return (
     <nav className="app-nav">
-      <Link to="/kasir" className="nav-btn kasir">
-        👨‍💼 Kasir
+      <Link to="/kasir" className="nav-btn">
+        <span className="icon">👨‍💼</span>
+        <span className="label">Kasir</span>
       </Link>
-      <Link to="/admin" className="nav-btn admin">
-        📊 Admin
+      <Link to="/admin" className="nav-btn">
+        <span className="icon">📊</span>
+        <span className="label">Admin</span>
       </Link>
-      <Link to="/print" className="nav-btn print">
-        🖨️ Print QR
+      <Link to="/print" className="nav-btn">
+        <span className="icon">🖨️</span>
+        <span className="label">Print</span>
       </Link>
-      <Link to="/reports" className="nav-btn reports">
-        📈 Reports
+      <Link to="/reports" className="nav-btn">
+        <span className="icon">📈</span>
+        <span className="label">Reports</span>
       </Link>
-      <Link to="/settings" className="nav-btn settings">
-        ⚙️ Settings
+      <Link to="/settings" className="nav-btn">
+        <span className="icon">⚙️</span>
+        <span className="label">Settings</span>
       </Link>
     </nav>
   );
