@@ -8,7 +8,7 @@ function KasirPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [scanMode, setScanMode] = useState('upload'); // 'camera' | 'upload' | 'manual'
+  const [scanMode, setScanMode] = useState('camera'); // 'upload' | 'camera' | 'manual'
   const [manualQR, setManualQR] = useState('');
 
   // Handle QR scan
@@ -105,16 +105,16 @@ function KasirPage() {
           {/* Scan Mode Toggle */}
           <div className="scan-mode-toggle">
             <button 
-              className={scanMode === 'camera' ? 'active' : ''}
-              onClick={() => setScanMode('camera')}
-            >
-              📷 Camera
-            </button>
-            <button 
               className={scanMode === 'upload' ? 'active' : ''}
               onClick={() => setScanMode('upload')}
             >
               📁 Upload
+            </button>
+            <button 
+              className={scanMode === 'camera' ? 'active' : ''}
+              onClick={() => setScanMode('camera')}
+            >
+              📷 Camera
             </button>
             <button 
               className={scanMode === 'manual' ? 'active' : ''}
