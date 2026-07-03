@@ -1,0 +1,27 @@
+{
+  "name": "radian-key-app",
+  "version": "1.0.0",
+  "description": "Radian Key - Customer Loyalty System with QR codes",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node backend/server.js",
+    "frontend": "cd frontend && npm start",
+    "frontend:build": "cd frontend && npm run build",
+    "frontend:install": "cd frontend && npm install",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["loyalty", "qr-code", "customer", "stamps"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "qrcode": "^1.5.4",
+    "sqlite3": "^6.0.1",
+    "uuid": "^14.0.1"
+  }
+}
