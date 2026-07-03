@@ -84,10 +84,22 @@ function QRScanner({ onScan }) {
         if (cancelled) return;
         setStatus('error');
         let msg = 'Tidak dapat mengakses camera';
-        if (err.name === 'NotAllowedError') msg = 'Izin camera ditolak. Klik icon 🔒 di address bar.';
-        else if (err.name === 'NotFoundError') msg = 'Camera tidak ditemukan.';
-        else if (err.name === 'NotReadableError') msg = 'Camera dipakai app lain.';
-        else msg = `${err.name}: ${err.message}`;
+        
+        // Cek jika HTTP non-localhost (browser memblokir WebRTC getUserMedia)
+        const isSecure = window.isSecureContext;
+        if (!isSecure) {
+          msg = '⚠️ Akses camera diblokir browser karena menggunakan HTTP biasa. Silahkan gunakan HTTPS atau koneksi localhost.';
+          alert(msg);
+        } else if (err.name === 'NotAllowedError') {
+          msg = 'Izin camera ditolak. Klik icon 🔒 di address bar.';
+        } else if (err.name === 'NotFoundError') {
+          msg = 'Camera tidak ditemukan.';
+        } else if (err.name === 'NotReadableError') {
+          msg = 'Camera dipakai app lain.';
+        } else {
+          msg = `${err.name}: ${err.message}`;
+        }
+        
         setError(msg);
       }
     };

@@ -1,6 +1,6 @@
 # Radian Key - Verification Evidence
 
-**Date**: 2026-07-03T15:25:20Z
+**Date**: 2026-07-03T15:29:24Z
 **Status**: ✅ VERIFIED
 
 ## Menu Separation Update
@@ -15,6 +15,7 @@
 - Updated Navigation bar in `App.jsx` and `App.css` to render as a fixed `bottom-nav` on the screen.
 - Moved "Daftar Baru" (Register) functionality out of `KasirPage.jsx` into `AdminPage.jsx`.
 - Set default scan mode to `camera` and reordered toggle buttons to (Upload | Camera | Manual) in `KasirPage.jsx`.
+- Removed static HTTPS camera warning text in `KasirPage.jsx` and replaced it with a dynamic `window.alert` popup inside `QRScanner.jsx` that only fires when `window.isSecureContext` is false and `getUserMedia` throws an error.
 - Verified frontend build completes successfully (`npm run build`).
 
 ## Concrete Test Evidence
