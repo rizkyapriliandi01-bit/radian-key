@@ -1,6 +1,6 @@
 # Radian Key - Verification Evidence
 
-**Date**: 2026-07-03T15:40:01Z
+**Date**: 2026-07-03T15:43:19Z
 **Status**: ✅ VERIFIED
 
 ## Menu Separation Update
@@ -25,7 +25,8 @@
 - Installed `vite-plugin-pwa` as a dev dependency.
 - Integrated `VitePWA` in `vite.config.js` to auto-generate `manifest.webmanifest` and service workers.
 - Defined PWA properties (`theme_color`, `display: standalone`, `icons`).
-- Added PWA-required meta tags to `index.html` including `user-scalable=no` for native app feel.
+- Added PWA-required meta tags to `index.html` including `user-scalable=no`, `apple-mobile-web-app-capable`, `mobile-web-app-capable`, and `viewport-fit=cover` to force a true full-screen, native app feel on iOS/Android.
+- Initialized PWA Service Worker via `virtual:pwa-register` in `main.jsx`.
 - Verified frontend build completes successfully and emits PWA assets (`npm run build`).
 
 ## Concrete Test Evidence
