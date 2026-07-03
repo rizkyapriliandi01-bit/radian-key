@@ -1,6 +1,6 @@
 # Radian Key - Verification Evidence
 
-**Date**: 2026-07-03T15:43:19Z
+**Date**: 2026-07-03T15:50:52Z
 **Status**: ✅ VERIFIED
 
 ## Menu Separation Update
@@ -27,6 +27,7 @@
 - Defined PWA properties (`theme_color`, `display: standalone`, `icons`).
 - Added PWA-required meta tags to `index.html` including `user-scalable=no`, `apple-mobile-web-app-capable`, `mobile-web-app-capable`, and `viewport-fit=cover` to force a true full-screen, native app feel on iOS/Android.
 - Initialized PWA Service Worker via `virtual:pwa-register` in `main.jsx`.
+- Added `purpose: 'any maskable'` to PWA icons in `vite.config.js` to trigger native A2HS (Add to Home Screen) install prompts on supported browsers.
 - Verified frontend build completes successfully and emits PWA assets (`npm run build`).
 
 ## Concrete Test Evidence
