@@ -55,16 +55,28 @@ function PrintQRPage() {
         {error && <div className="alert error">{error}</div>}
         {loading && <div className="alert info">Mencari...</div>}
 
-        <form onSubmit={handleSearch} className="search-form">
-          <input
-            type="text"
-            placeholder="Nama, HP, atau QR code..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="search-input"
-          />
-          <button type="submit" className="btn-search">
-            🔍 Cari
+        <form onSubmit={handleSearch} className="modern-search-form">
+          <div className="search-input-wrapper">
+            <span className="search-icon">🔍</span>
+            <input
+              type="text"
+              placeholder="Cari nama, HP, atau ID QR Code..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="modern-search-input"
+            />
+            {search && (
+              <button 
+                type="button" 
+                className="clear-search-btn"
+                onClick={() => setSearch('')}
+              >
+                ✕
+              </button>
+            )}
+          </div>
+          <button type="submit" className="btn-primary">
+            Cari
           </button>
         </form>
 

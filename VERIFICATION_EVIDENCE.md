@@ -1,6 +1,6 @@
 # Radian Key - Verification Evidence
 
-**Date**: 2026-07-03T15:32:45Z
+**Date**: 2026-07-03T15:35:35Z
 **Status**: ✅ VERIFIED
 
 ## Menu Separation Update
@@ -18,6 +18,8 @@
 - Removed static HTTPS camera warning text in `KasirPage.jsx` and replaced it with a dynamic `window.alert` popup inside `QRScanner.jsx` that only fires when `window.isSecureContext` is false and `getUserMedia` throws an error.
 - Moved the Scan Mode Toggle (Upload | Camera | Manual) buttons to sit below the camera/QR input area in `KasirPage.jsx`.
 - Redesigned `PrintQRPage.jsx` UI and Print styles. Added elegant Web Preview styling (shadows, rounded corners, modern typography) and configured physical print CSS for precise CR-80 card dimensions (85.6mm x 54mm) with high-contrast grayscale formatting suitable for physical cutting and printing.
+- Enhanced QR Scanner box with a modern animated laser line (`.scan-box::after`) and rounded borders (`border-radius: 12px`).
+- Modernized the Search input in `AdminPage.jsx` and `PrintQRPage.jsx` using a pill-shaped layout (`.modern-search-form`) with inset icons.
 - Verified frontend build completes successfully (`npm run build`).
 
 ## Concrete Test Evidence

@@ -35,6 +35,75 @@ body {
   line-height: 1.5;
 }
 
+/* ===================================
+   SEARCH FORM MODERNIZATION
+   =================================== */
+.modern-search-form {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.search-input-wrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  color: var(--gray);
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+.modern-search-input {
+  width: 100%;
+  padding: 0.85rem 2.5rem; /* space for icon & clear button */
+  border: 1px solid var(--border);
+  border-radius: 9999px; /* Pill shape */
+  font-size: 0.95rem;
+  background: white;
+  transition: all 0.2s;
+  box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.02);
+}
+
+.modern-search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 0.75rem;
+  background: var(--light);
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.clear-search-btn:hover {
+  background: #e2e8f0;
+  color: var(--dark);
+}
+
+.modern-search-form .btn-primary {
+  border-radius: 9999px;
+  padding: 0.85rem 1.75rem;
+  width: auto;
+}
+
 /* Base App width removed from here because we redefined it below */
 
 .app-header {
@@ -702,8 +771,32 @@ h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; }
   position: relative;
   width: 250px;
   height: 250px;
+  border-radius: 12px;
   border: 2px solid rgba(255,255,255,0.5);
-  box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);
+  box-shadow: 0 0 0 9999px rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Let's animate a scanning line inside the box */
+.scan-box::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--primary);
+  box-shadow: 0 0 8px var(--primary);
+  animation: scanline 2s linear infinite;
+}
+
+@keyframes scanline {
+  0% { transform: translateY(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(246px); opacity: 0; }
 }
 
 .corner {

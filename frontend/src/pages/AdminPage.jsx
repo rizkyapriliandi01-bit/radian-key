@@ -192,24 +192,27 @@ function AdminPage() {
       
       {mode === 'dashboard' && (
         <div className="search-section">
-          <form onSubmit={handleSearch} className="search-form">
-            <input
-              type="text"
-              placeholder="Cari nama atau HP..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="search-input"
-            />
-            <button type="submit" className="btn-search">🔍 Cari</button>
-            {search && (
-              <button 
-                type="button" 
-                onClick={() => { setSearch(''); setPage(1); }}
-                className="btn-clear"
-              >
-                ✕
-              </button>
-            )}
+          <form onSubmit={handleSearch} className="modern-search-form">
+            <div className="search-input-wrapper">
+              <span className="search-icon">🔍</span>
+              <input
+                type="text"
+                placeholder="Cari nama atau HP..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="modern-search-input"
+              />
+              {search && (
+                <button 
+                  type="button" 
+                  onClick={() => { setSearch(''); setPage(1); }}
+                  className="clear-search-btn"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+            <button type="submit" className="btn-primary">Cari</button>
           </form>
         </div>
       )}
