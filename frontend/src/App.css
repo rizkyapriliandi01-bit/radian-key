@@ -35,12 +35,7 @@ body {
   line-height: 1.5;
 }
 
-.app {
-  max-width: 600px;
-  margin: 0 auto;
-  min-height: 100vh;
-  background: var(--light);
-}
+/* Base App width removed from here because we redefined it below */
 
 .app-header {
   background: var(--primary);
@@ -78,6 +73,30 @@ body {
 }
 .app-nav::-webkit-scrollbar {
   display: none; /* Chrome/Safari */
+}
+
+/* Bottom Nav Override */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  max-width: 600px;
+  border-radius: 0;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  box-shadow: 0 -4px 6px -1px rgb(0 0 0 / 0.1), 0 -2px 4px -2px rgb(0 0 0 / 0.1);
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 50;
+}
+
+.app {
+  max-width: 600px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--light);
+  padding-bottom: 5rem; /* Space for bottom nav */
 }
 
 .nav-btn {

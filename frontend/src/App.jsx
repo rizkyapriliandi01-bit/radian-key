@@ -16,7 +16,7 @@ function Navigation() {
   }
 
   return (
-    <nav className="app-nav">
+    <nav className="app-nav bottom-nav">
       <Link to="/kasir" className="nav-btn">
         <span className="icon">👨‍💼</span>
         <span className="label">Kasir</span>

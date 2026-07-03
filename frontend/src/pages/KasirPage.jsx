@@ -4,16 +4,12 @@ import QRUpload from '../components/QRUpload';
 import { api } from '../api';
 
 function KasirPage() {
-  const [mode, setMode] = useState('scan'); // 'scan' | 'register'
   const [customer, setCustomer] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [scanMode, setScanMode] = useState('upload'); // 'camera' | 'upload' | 'manual'
   const [manualQR, setManualQR] = useState('');
-  
-  // Register form
-  const [formData, setFormData] = useState({ name: '', phone: '' });
 
   // Handle QR scan
   const handleScan = async (qrCode) => {
@@ -41,29 +37,6 @@ function KasirPage() {
       return;
     }
     handleScan(manualQR.trim());
-  };
-
-  // Handle register
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    if (!formData.name || !formData.phone) {
-      setError('Nama dan nomor HP wajib diisi');
-      return;
-    }
-
-    setLoading(true);
-    setError('');
-    try {
-      const data = await api.registerCustomer(formData.name, formData.phone);
-      setCustomer(data.customer);
-      setSuccess('Customer berhasil didaftarkan!');
-      setFormData({ name: '', phone: '' });
-      setMode('scan');
-    } catch (err) {
-      setError(err.response?.data?.error || 'Gagal mendaftar customer');
-    } finally {
-      setLoading(false);
-    }
   };
 
   // Add stamp
@@ -120,28 +93,12 @@ function KasirPage() {
     <div className="kasir-page">
       <h2>👨‍💼 Mode Kasir</h2>
 
-      {/* Mode Toggle */}
-      <div className="mode-toggle">
-        <button 
-          className={mode === 'scan' ? 'active' : ''}
-          onClick={() => setMode('scan')}
-        >
-          📱 Scan QR
-        </button>
-        <button 
-          className={mode === 'register' ? 'active' : ''}
-          onClick={() => setMode('register')}
-        >
-          ✍️ Daftar Baru
-        </button>
-      </div>
-
       {/* Messages */}
       {error && <div className="alert error">{error}</div>}
       {success && <div className="alert success">{success}</div>}
 
       {/* Scan Mode */}
-      {mode === 'scan' && !customer && (
+      {!customer && (
         <div className="scan-section">
           <h3>Scan Radian Key Customer</h3>
           
@@ -193,38 +150,6 @@ function KasirPage() {
               </button>
             </form>
           )}
-        </div>
-      )}
-
-      {/* Register Mode */}
-      {mode === 'register' && (
-        <div className="register-section">
-          <h3>Daftar Customer Baru</h3>
-          <form onSubmit={handleRegister}>
-            <div className="form-group">
-              <label>Nama Lengkap</label>
-              <input
-                type="text"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                placeholder="Nama customer"
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label>Nomor HP</label>
-              <input
-                type="tel"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                placeholder="08xxxxxxxxxx"
-                required
-              />
-            </div>
-            <button type="submit" className="btn-primary" disabled={loading}>
-              {loading ? 'Membuat...' : '✅ Daftar'}
-            </button>
-          </form>
         </div>
       )}
 

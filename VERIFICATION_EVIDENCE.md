@@ -1,6 +1,6 @@
 # Radian Key - Verification Evidence
 
-**Date**: 2026-07-03T15:08:34Z
+**Date**: 2026-07-03T15:22:35Z
 **Status**: ✅ VERIFIED
 
 ## Menu Separation Update
@@ -12,7 +12,9 @@
 
 - Changed `#root` CSS constraint in `index.css` to `max-width: 600px; width: 100%; border-inline: none;` to enforce a phone-friendly single-column layout on all devices.
 - Refactored `App.css` to use a modern Tailwind-inspired design system (Indigo/Emerald accents, soft shadows, rounded corners).
-- Updated Navigation bar in `App.jsx` to render as an app-like bottom/top tab bar with icons and labels.
+- Updated Navigation bar in `App.jsx` and `App.css` to render as a fixed `bottom-nav` on the screen.
+- Moved "Daftar Baru" (Register) functionality out of `KasirPage.jsx` into `AdminPage.jsx`.
+- Removed mode toggle in `KasirPage.jsx`, making it strictly a scanning page.
 - Verified frontend build completes successfully (`npm run build`).
 
 ## Concrete Test Evidence
