@@ -1,6 +1,6 @@
 # Radian Key - Verification Evidence
 
-**Date**: 2026-07-03T15:29:24Z
+**Date**: 2026-07-03T15:30:31Z
 **Status**: ✅ VERIFIED
 
 ## Menu Separation Update
@@ -16,6 +16,7 @@
 - Moved "Daftar Baru" (Register) functionality out of `KasirPage.jsx` into `AdminPage.jsx`.
 - Set default scan mode to `camera` and reordered toggle buttons to (Upload | Camera | Manual) in `KasirPage.jsx`.
 - Removed static HTTPS camera warning text in `KasirPage.jsx` and replaced it with a dynamic `window.alert` popup inside `QRScanner.jsx` that only fires when `window.isSecureContext` is false and `getUserMedia` throws an error.
+- Moved the Scan Mode Toggle (Upload | Camera | Manual) buttons to sit below the camera/QR input area in `KasirPage.jsx`.
 - Verified frontend build completes successfully (`npm run build`).
 
 ## Concrete Test Evidence

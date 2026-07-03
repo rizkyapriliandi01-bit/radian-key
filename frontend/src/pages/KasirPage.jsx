@@ -101,36 +101,9 @@ function KasirPage() {
       {!customer && (
         <div className="scan-section">
           <h3>Scan Radian Key Customer</h3>
-          
-          {/* Scan Mode Toggle */}
-          <div className="scan-mode-toggle">
-            <button 
-              className={scanMode === 'upload' ? 'active' : ''}
-              onClick={() => setScanMode('upload')}
-            >
-              📁 Upload
-            </button>
-            <button 
-              className={scanMode === 'camera' ? 'active' : ''}
-              onClick={() => setScanMode('camera')}
-            >
-              📷 Camera
-            </button>
-            <button 
-              className={scanMode === 'manual' ? 'active' : ''}
-              onClick={() => setScanMode('manual')}
-            >
-              ⌨️ Manual
-            </button>
-          </div>
 
           {scanMode === 'camera' ? (
-            <>
-              <QRScanner onScan={handleScan} />
-              <p className="scan-hint camera-warning">
-                ⚠️ Camera hanya jalan di HTTPS. Gunakan "Upload" atau "Manual" jika blank.
-              </p>
-            </>
+            <QRScanner onScan={handleScan} />
           ) : scanMode === 'upload' ? (
             <QRUpload onScan={handleScan} />
           ) : (
@@ -150,6 +123,28 @@ function KasirPage() {
               </button>
             </form>
           )}
+          
+          {/* Scan Mode Toggle - Dipindah ke bawah */}
+          <div className="scan-mode-toggle" style={{ marginTop: '1.5rem' }}>
+            <button 
+              className={scanMode === 'upload' ? 'active' : ''}
+              onClick={() => setScanMode('upload')}
+            >
+              📁 Upload
+            </button>
+            <button 
+              className={scanMode === 'camera' ? 'active' : ''}
+              onClick={() => setScanMode('camera')}
+            >
+              📷 Camera
+            </button>
+            <button 
+              className={scanMode === 'manual' ? 'active' : ''}
+              onClick={() => setScanMode('manual')}
+            >
+              ⌨️ Manual
+            </button>
+          </div>
         </div>
       )}
 
