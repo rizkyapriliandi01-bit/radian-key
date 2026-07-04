@@ -42,6 +42,23 @@ db.serialize(() => {
     )
   `);
 
+  // Migration: add status column
+  db.run(`ALTER TABLE customers ADD COLUMN status TEXT DEFAULT 'active'`, (err) => {
+    if (err && !err.message.includes('duplicate column')) {
+      console.log('ℹ️ Status column already exists');
+    }
+  });
+
+  // Migration: add id_card column
+  db.run(`ALTER TABLE customers ADD COLUMN id_card TEXT`, (err) => {
+    if (err && !err.message.includes('duplicate column')) {
+      console.log('ℹ️ id_card column already exists');
+    }
+  });
+
+  // Migration: copy qr_code → id_card for old rows (so old physical cards still work)
+  db.run(`UPDATE customers SET id_card = qr_code WHERE id_card IS NULL OR id_card = ''`);
+
   // Insert default settings
   db.run(`
     INSERT OR IGNORE INTO settings (key, value) VALUES 

@@ -4,14 +4,26 @@ const API_URL = import.meta.env.VITE_API_URL || '/api';
 
 export const api = {
   // Register new customer
-  registerCustomer: async (name, phone) => {
-    const response = await axios.post(`${API_URL}/customers/register`, { name, phone });
+  registerCustomer: async (name, phone, id_card) => {
+    const response = await axios.post(`${API_URL}/customers/register`, { name, phone, id_card: id_card || undefined });
     return response.data;
   },
 
-  // Get customer by QR code
-  getCustomerByQR: async (qrCode) => {
-    const response = await axios.get(`${API_URL}/customers/qr/${qrCode}`);
+  // Claim blank ID card (register via pre-printed card)
+  claimIDCard: async (idCard, name, phone) => {
+    const response = await axios.post(`${API_URL}/customers/claim`, { id_card: idCard, name, phone });
+    return response.data;
+  },
+
+  // Batch generate blank ID cards
+  batchGenerateID: async (count) => {
+    const response = await axios.post(`${API_URL}/customers/batch-generate`, { count });
+    return response.data;
+  },
+
+  // Get customer by ID Card (scan)
+  getCustomerByIDCard: async (idCard) => {
+    const response = await axios.get(`${API_URL}/customers/id/${encodeURIComponent(idCard)}`);
     return response.data;
   },
 

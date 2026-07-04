@@ -10,7 +10,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'icons.svg'],
+      includeAssets: ['favicon.svg', 'icons.svg', 'icon.svg', 'icon-192.png', 'icon-512.png'],
       manifest: {
         name: 'Radian Key',
         short_name: 'RadianKey',
@@ -18,21 +18,37 @@ export default defineConfig({
         theme_color: '#4f46e5',
         background_color: '#f3f4f6',
         display: 'standalone',
+        scope: '/',
+        start_url: '/',
         orientation: 'portrait',
         icons: [
           {
-            src: '/favicon.svg',
+            src: '/icon-192.png',
             sizes: '192x192',
-            type: 'image/svg+xml',
-            purpose: 'any maskable'
+            type: 'image/png'
           },
           {
-            src: '/favicon.svg',
+            src: '/icon-512.png',
             sizes: '512x512',
-            type: 'image/svg+xml',
-            purpose: 'any maskable'
+            type: 'image/png'
+          },
+          {
+            src: '/icon-192.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'maskable'
+          },
+          {
+            src: '/icon-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable'
           }
         ]
+      },
+      devOptions: {
+        enabled: true,
+        type: 'module'
       }
     })
   ],
@@ -40,8 +56,8 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 5173,
     https: {
-      key: fs.readFileSync(path.resolve(__dirname, '..', '192.168.1.13+3-key.pem')),
-      cert: fs.readFileSync(path.resolve(__dirname, '..', '192.168.1.13+3.pem'))
+      key: fs.readFileSync(path.resolve(__dirname, '..', '192.168.1.13+2-key.pem')),
+      cert: fs.readFileSync(path.resolve(__dirname, '..', '192.168.1.13+2.pem'))
     },
     proxy: {
       '/api': {

@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import QRScanner from '../components/QRScanner';
-import QRUpload from '../components/QRUpload';
 import { api } from '../api';
 
 function KasirPage() {
@@ -8,219 +7,163 @@ function KasirPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [scanMode, setScanMode] = useState('camera'); // 'upload' | 'camera' | 'manual'
-  const [manualQR, setManualQR] = useState('');
+  const fileRef = useRef(null);
+  const [manualID, setManualID] = useState('');
+  const [claimCard, setClaimCard] = useState('');
+  const [claimForm, setClaimForm] = useState({ name: '', phone: '' });
 
-  // Handle QR scan
-  const handleScan = async (qrCode) => {
-    setLoading(true);
-    setError('');
+  const handleScan = async (idCard) => {
+    setLoading(true); setError('');
     try {
-      const data = await api.getCustomerByQR(qrCode);
-      setCustomer(data);
-      setSuccess('Customer berhasil dimuat!');
-      setManualQR('');
-      setTimeout(() => setSuccess(''), 2000);
+      const data = await api.getCustomerByIDCard(idCard);
+      if (data.status === 'printed') {
+        setClaimCard(idCard); setCustomer(null);
+        setSuccess('Kartu baru. Isi nama & HP.');
+        setTimeout(() => setSuccess(''), 3000);
+      } else {
+        setCustomer(data); setClaimCard('');
+        setSuccess('Customer ditemukan!'); setManualID('');
+        setTimeout(() => setSuccess(''), 2000);
+      }
     } catch (err) {
-      setError(err.response?.data?.error || 'QR code tidak ditemukan');
+      setError(err.response?.data?.error || 'ID Card tidak ditemukan');
       setCustomer(null);
-    } finally {
-      setLoading(false);
-    }
+    } finally { setLoading(false); }
   };
 
-  // Handle manual QR input
   const handleManualSubmit = (e) => {
     e.preventDefault();
-    if (!manualQR.trim()) {
-      setError('QR code tidak boleh kosong');
-      return;
-    }
-    handleScan(manualQR.trim());
+    if (!manualID.trim()) { setError('Masukkan ID Card'); return; }
+    handleScan(manualID.trim());
   };
 
-  // Add stamp
+  const handleFileUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = async (ev) => {
+      const img = new Image();
+      img.onload = async () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width; canvas.height = img.height;
+        const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const jsQR = (await import('jsqr')).default;
+        const code = jsQR(imageData.data, imageData.width, imageData.height);
+        code ? handleScan(code.data) : setError('QR tidak terdeteksi');
+      }; img.src = ev.target.result;
+    }; reader.readAsDataURL(file);
+    e.target.value = '';
+  };
+
+  const handleClaim = async (e) => {
+    e.preventDefault();
+    if (!claimForm.name || !claimForm.phone) { setError('Nama & HP wajib'); return; }
+    setLoading(true); setError('');
+    try {
+      const data = await api.claimIDCard(claimCard, claimForm.name, claimForm.phone);
+      setCustomer(data.customer); setClaimCard(''); setClaimForm({ name: '', phone: '' });
+      setSuccess('✅ Aktivasi berhasil!');
+      setTimeout(() => setSuccess(''), 3000);
+    } catch (err) { setError(err.response?.data?.error || 'Gagal'); }
+    finally { setLoading(false); }
+  };
+
   const handleAddStamp = async () => {
-    if (!customer) return;
-    
-    setLoading(true);
-    setError('');
+    if (!customer) return; setLoading(true); setError('');
     try {
       const data = await api.addStamp(customer.id);
       setCustomer({ ...customer, stamps: data.stamps, voucher_active: data.voucher_active });
-      
-      if (data.voucher_activated) {
-        setSuccess('🎉 Voucher Rp15,000 AKTIF! 🎉');
-      } else {
-        setSuccess('✅ Stamp berhasil ditambahkan!');
-      }
+      data.voucher_activated ? setSuccess('🎉 Voucher Rp15,000 AKTIF!') : setSuccess('✅ Stamp ditambah!');
       setTimeout(() => setSuccess(''), 3000);
-    } catch (err) {
-      setError(err.response?.data?.error || 'Gagal menambah stamp');
-    } finally {
-      setLoading(false);
-    }
+    } catch (err) { setError(err.response?.data?.error || 'Gagal'); }
+    finally { setLoading(false); }
   };
 
-  // Use voucher
   const handleUseVoucher = async () => {
-    if (!customer || !customer.voucher_active) return;
-
-    if (!window.confirm('Gunakan voucher Rp15,000 sekarang?')) return;
-
-    setLoading(true);
-    setError('');
+    if (!customer?.voucher_active) return;
+    if (!window.confirm('Gunakan voucher Rp15,000?')) return;
+    setLoading(true); setError('');
     try {
-      const data = await api.useVoucher(customer.id);
+      await api.useVoucher(customer.id);
       setCustomer({ ...customer, stamps: 0, voucher_active: false });
-      setSuccess('✅ Voucher Rp15,000 berhasil digunakan!');
+      setSuccess('✅ Voucher digunakan!');
       setTimeout(() => setSuccess(''), 3000);
-    } catch (err) {
-      setError(err.response?.data?.error || 'Gagal menggunakan voucher');
-    } finally {
-      setLoading(false);
-    }
+    } catch (err) { setError(err.response?.data?.error || 'Gagal'); }
+    finally { setLoading(false); }
   };
 
-  // Reset
   const handleReset = () => {
-    setCustomer(null);
-    setError('');
-    setSuccess('');
+    setCustomer(null); setClaimCard(''); setClaimForm({ name: '', phone: '' }); setError(''); setSuccess('');
   };
 
   return (
     <div className="kasir-page">
       <h2>👨‍💼 Mode Kasir</h2>
-
-      {/* Messages */}
       {error && <div className="alert error">{error}</div>}
       {success && <div className="alert success">{success}</div>}
 
-      {/* Scan Mode */}
-      {!customer && (
+      {claimCard && !customer && (
         <div className="scan-section">
-          <h3>Scan Radian Key Customer</h3>
+          <h3>📋 Kartu Baru — Aktivasi</h3>
+          <p className="text-muted">ID Card: {claimCard}</p>
+          <form onSubmit={handleClaim} className="claim-form">
+            <div className="form-group"><label>Nama</label>
+              <input type="text" value={claimForm.name} onChange={(e) => setClaimForm({ ...claimForm, name: e.target.value })} placeholder="Nama lengkap" autoFocus />
+            </div>
+            <div className="form-group"><label>Nomor HP</label>
+              <input type="tel" value={claimForm.phone} onChange={(e) => setClaimForm({ ...claimForm, phone: e.target.value })} placeholder="08123456789" />
+            </div>
+            <button type="submit" className="btn-primary" disabled={loading}>{loading ? 'Memproses...' : '✅ Aktivasi'}</button>
+            <button type="button" onClick={() => { setClaimCard(''); setClaimForm({ name: '', phone: '' }); }} className="btn-secondary" style={{marginTop:8}}>← Kembali</button>
+          </form>
+        </div>
+      )}
 
-          {scanMode === 'camera' ? (
-            <QRScanner onScan={handleScan} />
-          ) : scanMode === 'upload' ? (
-            <QRUpload onScan={handleScan} />
-          ) : (
+      {!customer && !claimCard && (
+        <div className="scan-section">
+          <h3>Scan ID Card</h3>
+          <QRScanner onScan={handleScan} />
+          <input ref={fileRef} type="file" accept="image/*" onChange={handleFileUpload} style={{ display: 'none' }} />
+          <div className="scan-actions">
+            <button className="btn-secondary" onClick={() => fileRef.current?.click()}>📁 Upload Foto</button>
             <form onSubmit={handleManualSubmit} className="manual-qr-form">
-              <div className="form-group">
-                <label>QR Code Customer</label>
-                <input
-                  type="text"
-                  value={manualQR}
-                  onChange={(e) => setManualQR(e.target.value)}
-                  placeholder="RADIAN-xxxx-xxxx-xxxx..."
-                  autoFocus
-                />
-              </div>
-              <button type="submit" className="btn-primary" disabled={loading}>
-                {loading ? 'Mencari...' : '🔍 Cari Customer'}
-              </button>
+              <input type="text" value={manualID} onChange={(e) => setManualID(e.target.value)} placeholder="RSN-0001" />
+              <button type="submit" className="btn-primary" disabled={loading}>{loading ? '...' : '🔍'}</button>
             </form>
-          )}
-          
-          {/* Scan Mode Toggle - Dipindah ke bawah */}
-          <div className="scan-mode-toggle" style={{ marginTop: '1.5rem' }}>
-            <button 
-              className={scanMode === 'upload' ? 'active' : ''}
-              onClick={() => setScanMode('upload')}
-            >
-              📁 Upload
-            </button>
-            <button 
-              className={scanMode === 'camera' ? 'active' : ''}
-              onClick={() => setScanMode('camera')}
-            >
-              📷 Camera
-            </button>
-            <button 
-              className={scanMode === 'manual' ? 'active' : ''}
-              onClick={() => setScanMode('manual')}
-            >
-              ⌨️ Manual
-            </button>
           </div>
         </div>
       )}
 
-      {/* Customer Display */}
       {customer && (
         <div className="customer-display">
           <div className="customer-header">
-            <h3>✅ Customer Terdeteksi</h3>
-            <button onClick={handleReset} className="btn-secondary">
-              Baru
-            </button>
+            <h3>✅ {customer.name}</h3>
+            <button onClick={handleReset} className="btn-secondary">Baru</button>
           </div>
-
           <div className="customer-info">
-            <div className="info-row">
-              <span className="label">Nama:</span>
-              <span className="value">{customer.name}</span>
-            </div>
-            <div className="info-row">
-              <span className="label">HP:</span>
-              <span className="value">{customer.phone}</span>
-            </div>
+            <div className="info-row"><span className="label">ID:</span><span className="value">{customer.id_card}</span></div>
+            <div className="info-row"><span className="label">HP:</span><span className="value">{customer.phone}</span></div>
           </div>
-
-          {/* Stamp Progress */}
-          <div className="stamp-section">
-            <h4>Stamp Progress</h4>
-            <div className="stamp-counter">
-              <span className="stamp-number">{customer.stamps}</span>
-              <span className="stamp-total">/ 8</span>
-            </div>
-            <div className="stamp-grid">
-              {[...Array(8)].map((_, i) => (
-                <div 
-                  key={i} 
-                  className={`stamp ${i < customer.stamps ? 'filled' : ''}`}
-                >
-                  {i < customer.stamps ? '✓' : '○'}
+          {customer.stamps !== undefined && (
+            <>
+              <div className="stamp-section">
+                <div className="stamp-counter"><span className="stamp-number">{customer.stamps}</span><span className="stamp-total">/ 8</span></div>
+                <div className="stamp-grid">
+                  {[...Array(8)].map((_, i) => (
+                    <div key={i} className={`stamp ${i < customer.stamps ? 'filled' : ''}`}>{i < customer.stamps ? '✓' : '○'}</div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Voucher Status */}
-          {customer.voucher_active && (
-            <div className="voucher-active">
-              <h4>🎉 Voucher Aktif!</h4>
-              <p className="voucher-amount">Rp 15,000</p>
-              <button 
-                onClick={handleUseVoucher} 
-                className="btn-voucher"
-                disabled={loading}
-              >
-                💳 Gunakan Voucher
-              </button>
-            </div>
+              </div>
+              {customer.voucher_active ? (
+                <div className="voucher-active"><h4>🎉 Voucher Rp15,000 Aktif!</h4><button onClick={handleUseVoucher} className="btn-voucher" disabled={loading}>💳 Gunakan</button></div>
+              ) : (
+                <button onClick={handleAddStamp} className="btn-add-stamp" disabled={loading}>➕ Tambah Stamp</button>
+              )}
+            </>
           )}
-
-          {/* Action Button */}
-          {!customer.voucher_active && (
-            <button 
-              onClick={handleAddStamp} 
-              className="btn-add-stamp"
-              disabled={loading}
-            >
-              ➕ Tambah Stamp
-            </button>
-          )}
-
-          {/* QR Code Display */}
           {customer.qr_image && (
-            <div className="qr-display">
-              <h4>QR Code Customer</h4>
-              <img src={customer.qr_image} alt="QR Code" />
-              <p className="qr-code-text">{customer.qr_code}</p>
-            </div>
+            <div className="qr-display"><h4>QR ID Card</h4><img src={customer.qr_image} alt="QR" /><p className="qr-code-text">{customer.id_card}</p></div>
           )}
         </div>
       )}

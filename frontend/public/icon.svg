@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192" fill="none">
+  <rect width="192" height="192" rx="40" fill="#4f46e5"/>
+  <path d="M96 32L160 72V152L96 192L32 152V72L96 32Z" fill="white" opacity="0.2"/>
+  <path d="M96 48L152 83V147L96 182L40 147V83L96 48Z" fill="white" opacity="0.4"/>
+  <path d="M96 64L144 94V142L96 172L48 142V94L96 64Z" fill="white"/>
+  <text x="96" y="120" text-anchor="middle" fill="#4f46e5" font-family="Arial, sans-serif" font-weight="bold" font-size="40">RK</text>
+</svg>

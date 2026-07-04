@@ -9,7 +9,7 @@ router.get('/customers', (req, res) => {
   const offset = (page - 1) * limit;
   const search = req.query.search || '';
 
-  let query = 'SELECT * FROM customers';
+  let query = 'SELECT id, name, phone, id_card, stamps, voucher_active, status, created_at FROM customers';
   let countQuery = 'SELECT COUNT(*) as total FROM customers';
   let params = [];
 
@@ -103,7 +103,7 @@ router.get('/stats', (req, res) => {
 router.get('/customers/:id', (req, res) => {
   const { id } = req.params;
 
-  db.get('SELECT * FROM customers WHERE id = ?', [id], (err, customer) => {
+  db.get('SELECT id, name, phone, id_card, stamps, voucher_active, status, created_at FROM customers WHERE id = ?', [id], (err, customer) => {
     if (err || !customer) {
       return res.status(404).json({ error: 'Customer tidak ditemukan' });
     }

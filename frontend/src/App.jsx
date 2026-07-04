@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react
 import KasirPage from './pages/KasirPage';
 import CustomerPage from './pages/CustomerPage';
 import AdminPage from './pages/AdminPage';
-import PrintQRPage from './pages/PrintQRPage';
+import PrintPage from './pages/PrintPage';
 import ReportsPage from './pages/ReportsPage';
 import SettingsPage from './pages/SettingsPage';
 import './App.css';
@@ -62,7 +62,7 @@ function App() {
           <Route path="/kasir" element={<KasirPage />} />
           <Route path="/customer" element={<CustomerPage />} />
           <Route path="/admin" element={<AdminPage />} />
-          <Route path="/print" element={<PrintQRPage />} />
+          <Route path="/print" element={<PrintPage />} />
           <Route path="/reports" element={<ReportsPage />} />
           <Route path="/settings" element={<SettingsPage />} />
         </Routes>

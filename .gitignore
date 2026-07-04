@@ -1,6 +1,7 @@
 node_modules/
 .env
 dist/
+dev-dist/
 *.pem
 *.key
 radian_key.db
